@@ -14,8 +14,8 @@ import javax.swing.JOptionPane;
  */
 public class SpadesScoreKeeperUI extends javax.swing.JFrame {
 
-    private float team1Nello;
-    private float team2Nello;
+    SpadesTeam team1;
+    SpadesTeam team2;
     /**
      * Creates new form SpadesScoreKeeperUI
      */
@@ -24,8 +24,8 @@ public class SpadesScoreKeeperUI extends javax.swing.JFrame {
         setLocationRelativeTo(null);
         jTextFieldTeam1Score.setText("0");
         jTextFieldTeam2Score.setText("0");
-        team1Nello = 0;
-        team2Nello = 0;
+        this.team1 = new SpadesTeam();
+        this.team2 = new SpadesTeam();
     }
 
     /**
@@ -421,7 +421,7 @@ public class SpadesScoreKeeperUI extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jPanelTeam1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                    .addComponent(jPanelTeam1, javax.swing.GroupLayout.PREFERRED_SIZE, 339, Short.MAX_VALUE)
                     .addComponent(jPanelTeam2, javax.swing.GroupLayout.DEFAULT_SIZE, 339, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jButtonCloseButton)
@@ -445,30 +445,22 @@ public class SpadesScoreKeeperUI extends javax.swing.JFrame {
         if (pattern.matcher(jTextFieldTeam1Player1Bid.getText()).matches()) {
             if (pattern.matcher(jTextFieldTeam1Player2Bid.getText()).matches()) {
                 if (pattern.matcher(jTextFieldTeam1Total.getText()).matches()) {
-                    float num1 = Float.parseFloat(jTextFieldTeam1Player1Bid.getText());
-                    float num2 = Float.parseFloat(jTextFieldTeam1Player2Bid.getText());
-                    float total = Float.parseFloat(jTextFieldTeam1Total.getText());
-                    float result = num1 + num2;
+                    int num1 = Integer.parseInt(jTextFieldTeam1Player1Bid.getText());
+                    int num2 = Integer.parseInt(jTextFieldTeam1Player2Bid.getText());
+                    int total = Integer.parseInt(jTextFieldTeam1Total.getText());
                     
-                    float points = 0;
-                    if (total >= result) {
-                        points = result * 10 + (total - result);
-                    }
-                    else {
-                        points = result * -10; 
-                    }
+                    this.team1.bid1 = num1;
+                    this.team1.bid2 = num2;
+                    this.team1.setTotalBidsTaken(total);
                     
-                    points += team1Nello;
+                    int newScore = this.team1.calculateScore();
                     
-                    float currentScore = Float.parseFloat(jTextFieldTeam1Score.getText());
-                    float newScore = currentScore + points;
                     jTextFieldTeam1Score.setText(String.valueOf(newScore));
                     
                     jTextFieldTeam1Player1Bid.setText("0");
                     jTextFieldTeam1Player2Bid.setText("0");
                     jTextFieldTeam1Total.setText("0");
                     jRadioButton5.setSelected(true);
-                    team1Nello = 0;
                 }
                 else {
                     JOptionPane.showMessageDialog(null, jTextFieldTeam1Total.getText() + " is not a valid number.", "Invalid Entry", JOptionPane.ERROR_MESSAGE);
@@ -484,23 +476,27 @@ public class SpadesScoreKeeperUI extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jRadioButtonTeam1NelloSucceededActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRadioButtonTeam1NelloSucceededActionPerformed
-        team1Nello = 100;
+        this.team1.specialBid = SpadesTeam.SpecialBid.NELLO;
+        this.team1.setSpecialBid(true);
     }//GEN-LAST:event_jRadioButtonTeam1NelloSucceededActionPerformed
 
     private void jRadioButtonTeam1NelloFailedActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRadioButtonTeam1NelloFailedActionPerformed
-        team1Nello = -100;
+        this.team1.specialBid = SpadesTeam.SpecialBid.NELLO;
+        this.team1.setSpecialBid(false);
     }//GEN-LAST:event_jRadioButtonTeam1NelloFailedActionPerformed
 
     private void jRadioButtonTeam1BlindSucceededActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRadioButtonTeam1BlindSucceededActionPerformed
-        team1Nello = 200;
+        this.team1.specialBid = SpadesTeam.SpecialBid.BLIND_NELLO;
+        this.team1.setSpecialBid(true);
     }//GEN-LAST:event_jRadioButtonTeam1BlindSucceededActionPerformed
 
     private void jRadioButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRadioButton4ActionPerformed
-        team1Nello = -200;
+        this.team1.specialBid = SpadesTeam.SpecialBid.BLIND_NELLO;
+        this.team1.setSpecialBid(false);
     }//GEN-LAST:event_jRadioButton4ActionPerformed
 
     private void jRadioButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRadioButton5ActionPerformed
-        team1Nello = 0;
+        this.team1.specialBid = SpadesTeam.SpecialBid.NONE;
     }//GEN-LAST:event_jRadioButton5ActionPerformed
 
     /**
